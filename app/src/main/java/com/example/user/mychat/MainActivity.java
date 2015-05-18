@@ -60,8 +60,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Fire
     private void postAComment(){
         String text = mEditText.getText().toString();
         if(text.length() > 0){
-            mListMess.add(new Message().initFromText(text));
-            mAdapter.notifyDataSetChanged();
             mEditText.setText("");
             mManager.insertText(text);
         }else{
