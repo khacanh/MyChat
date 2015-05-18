@@ -1,6 +1,5 @@
 package com.example.user.mychat;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,11 +7,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.user.mychat.firebase.FireBaseManager;
+import com.example.user.mychat.model.Message;
+import com.example.user.mychat.network.NetworkStateMonitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends Activity implements View.OnClickListener, FireBaseManager.OnMessageUpdatedListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener, FireBaseManager.OnMessageUpdatedListener{
 
     private EditText mEditText;
     private ListView mListView;
@@ -37,9 +40,22 @@ public class MainActivity extends Activity implements View.OnClickListener, Fire
         mSendButton.setOnClickListener(this);
 
         //setup list view
-        mListMess = new ArrayList<>();
+        mListMess = mManager.getAllMessage();
+        if(mListMess == null){
+            mListMess = new ArrayList<>();
+        }
         mAdapter = new ChatAdapter(this, mListMess);
         mListView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(NetworkStateMonitor.getInstance(this).isConnected()){
+            mSendButton.setEnabled(true);
+        }else{
+            mSendButton.setEnabled(false);
+        }
     }
 
     @Override
@@ -64,6 +80,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Fire
             mManager.insertText(text);
         }else{
             Toast.makeText(MainActivity.this, "Please insert text to send", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void networkSateChanged(boolean isConnected) {
+        if(mSendButton != null) {
+            if (isConnected) {
+                mSendButton.setEnabled(true);
+            }else{
+                mSendButton.setEnabled(false);
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.user.mychat;
+package com.example.user.mychat.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +9,7 @@ public class Message {
 
     private String mAuthor;
     private String mMessage;
+    private String mId;
 
     public String getAuthor() {
         return mAuthor;
@@ -26,6 +27,14 @@ public class Message {
         this.mMessage = mMessage;
     }
 
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String mId) {
+        this.mId = mId;
+    }
+
     public Message initFromJSONObject(JSONObject object){
         mAuthor = N_A;
         mMessage = N_A;
@@ -40,7 +49,8 @@ public class Message {
         return this;
     }
 
-    public Message(String author, String message){
+    public Message(String id, String author, String message){
+        mId = id;
         mAuthor = author;
         mMessage = message;
     }
