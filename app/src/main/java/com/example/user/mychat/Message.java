@@ -10,7 +10,7 @@ public class Message {
     private String mAuthor;
     private String mMessage;
 
-    public String getUser() {
+    public String getAuthor() {
         return mAuthor;
     }
 
@@ -38,6 +38,11 @@ public class Message {
             e.printStackTrace();
         }
         return this;
+    }
+
+    public Message(String author, String message){
+        mAuthor = author;
+        mMessage = message;
     }
 
     public Message initFromText(String text){

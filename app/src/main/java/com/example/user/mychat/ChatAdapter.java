@@ -49,7 +49,7 @@ public class ChatAdapter extends BaseAdapter{
         }
 
         Message message = mListMess.get(position);
-        viewHolder.mMessageText.setText(message.getMessage());
+        viewHolder.mMessageText.setText(message.getAuthor() + ": "+message.getMessage());
 
         return convertView;
     }
