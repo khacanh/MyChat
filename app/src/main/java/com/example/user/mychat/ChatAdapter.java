@@ -13,10 +13,10 @@ public class ChatAdapter extends BaseAdapter{
 
     private static final int RESOURCE = R.layout.message_item;
 
-    private List<String> mListMess;
+    private List<Message> mListMess;
     private Activity mActivity;
 
-    public ChatAdapter(Activity activity, List<String> listMess){
+    public ChatAdapter(Activity activity, List<Message> listMess){
         mListMess = listMess;
         mActivity = activity;
     }
@@ -48,8 +48,8 @@ public class ChatAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        String text = mListMess.get(position);
-        viewHolder.mMessageText.setText(text);
+        Message message = mListMess.get(position);
+        viewHolder.mMessageText.setText(message.getMessage());
 
         return convertView;
     }
