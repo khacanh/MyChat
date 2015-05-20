@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:clickable="false"
+    android:padding="@dimen/height_percent_1">
+
+    <LinearLayout
+        android:layout_width="@dimen/width_percent_12"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/two_or_four_pixel"
+        android:background="@drawable/button_background_enable">
+
+        <ImageView
+            android:id="@+id/messages_item_avatar"
+            android:layout_width="@dimen/width_percent_10"
+            android:layout_height="@dimen/width_percent_10"
+            android:src="@drawable/user_icon"/>
+
+        <TextView
+            android:id="@+id/messages_item_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:ellipsize="end"
+            android:maxLines="1" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/messages_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/chat_bubble_left"
+        android:textColor="#000"
+        android:layout_marginLeft="@dimen/width_percent_2"
+        android:textSize="12dp"
+        android:paddingLeft="@dimen/width_percent_7"
+        android:paddingRight="@dimen/width_percent_2"
+        android:paddingTop="@dimen/width_percent_2"
+        android:paddingBottom="@dimen/width_percent_2"/>
+</LinearLayout>
