@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/stroke"
+        android:orientation="vertical"
+        android:padding="@dimen/height_percent_2">
+
+        <TextView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/height_percent_2"
+            android:gravity="center_horizontal"
+            android:text="MyChat"
+            android:textColor="#000"
+            android:textSize="36dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/login_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/input_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/height_percent_1"
+                android:text="Tell us your name:" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/input_username"
+                    android:layout_width="@dimen/width_percent_40"
+                    android:layout_height="@dimen/height_percent_4"
+                    android:layout_below="@+id/input_label"
+                    android:background="@drawable/button_background_enable"
+                    android:padding="@dimen/two_or_four_pixel"
+                    android:singleLine="true" />
+
+                <Button
+                    android:id="@+id/input_join_button"
+                    android:layout_width="@dimen/width_percent_10"
+                    android:layout_height="@dimen/height_percent_4"
+                    android:layout_alignRight="@+id/input_username"
+                    android:layout_below="@+id/input_label"
+                    android:layout_marginLeft="@dimen/width_percent_1"
+                    android:background="@drawable/button_background_selector"
+                    android:enabled="false"
+                    android:text="Join" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

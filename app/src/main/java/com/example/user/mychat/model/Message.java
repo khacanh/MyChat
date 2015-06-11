@@ -1,5 +1,9 @@
 package com.example.user.mychat.model;
 
+import android.database.Cursor;
+
+import com.example.user.mychat.database.DBHelper;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +39,19 @@ public class Message {
         this.mId = mId;
     }
 
-    public Message initFromJSONObject(JSONObject object){
+    public Message(){
+        mId = N_A;
+        mAuthor = N_A;
+        mMessage = N_A;
+    }
+
+    public Message(String id, String author, String message){
+        mId = id;
+        mAuthor = author;
+        mMessage = message;
+    }
+
+    public Message update(JSONObject object){
         mAuthor = N_A;
         mMessage = N_A;
         try {
@@ -49,15 +65,25 @@ public class Message {
         return this;
     }
 
-    public Message(String id, String author, String message){
-        mId = id;
-        mAuthor = author;
-        mMessage = message;
-    }
-
-    public Message initFromText(String text){
+    public Message update(String text){
         mAuthor = N_A;
         mMessage = text;
         return this;
+    }
+
+    public Message update(Cursor cursor){
+        if(cursor.getCount() > 0){
+            if(cursor.getPosition() == -1){
+                cursor.moveToFirst();
+            }
+            int idIndex = cursor.getColumnIndexOrThrow(DBHelper.CHAT_COLUMN_ID);
+            int authorIndex = cursor.getColumnIndexOrThrow(DBHelper.CHAT_COLUMN_AUTHOR);
+            int messageIndex = cursor.getColumnIndexOrThrow(DBHelper.CHAT_COLUMN_MESSAGE);
+            mId = cursor.getString(idIndex);
+            mAuthor = cursor.getString(authorIndex);
+            mMessage = cursor.getString(messageIndex);
+            return this;
+        }
+        return null;
     }
 }

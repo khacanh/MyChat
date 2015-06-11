@@ -4,5 +4,10 @@
     <string name="app_name">MyChat</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="send_text">Send</string>
 
+    <string name="alert_network_changed">Network Changed!</string>
+
+    <string name="alert_input_add_text">Please insert text to send</string>
+    <string name="alert_input_4_characters">Username is at least 4 characters</string>
 </resources>

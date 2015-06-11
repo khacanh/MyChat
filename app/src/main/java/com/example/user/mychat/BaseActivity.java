@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.widget.Toast;
 
 import com.example.user.mychat.network.NetworkStateMonitor;
+import com.example.user.mychat.utils.ResourceUtil;
 
 public abstract class BaseActivity extends Activity implements NetworkStateMonitor.OnNetworkStateChangedListener{
 
@@ -29,6 +30,6 @@ public abstract class BaseActivity extends Activity implements NetworkStateMonit
         }else{
             networkSateChanged(false);
         }
-        Toast.makeText(this, "Network Changed!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, ResourceUtil.getString(this, R.string.alert_network_changed), Toast.LENGTH_LONG).show();
     }
 }

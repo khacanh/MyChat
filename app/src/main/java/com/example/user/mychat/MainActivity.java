@@ -1,7 +1,9 @@
 package com.example.user.mychat;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -10,9 +12,8 @@ import android.widget.Toast;
 import com.example.user.mychat.firebase.FireBaseManager;
 import com.example.user.mychat.model.Message;
 import com.example.user.mychat.network.NetworkStateMonitor;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.user.mychat.database.DBHelper;
+import com.example.user.mychat.utils.ResourceUtil;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, FireBaseManager.OnMessageUpdatedListener{
@@ -22,8 +23,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private Button mSendButton;
 
     private ChatAdapter mAdapter;
-    private List<Message> mListMess;
     private FireBaseManager mManager;
+    private Cursor mCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +41,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mSendButton.setOnClickListener(this);
 
         //setup list view
-        mListMess = mManager.getAllMessage();
-        if(mListMess == null){
-            mListMess = new ArrayList<>();
+        mCursor = mManager.getAllMessage();
+        if(mCursor.moveToFirst()) {
+            createAdapter();
         }
-        mAdapter = new ChatAdapter(this, mListMess);
+    }
+
+    private void createAdapter(){
+        mAdapter = new ChatAdapter(this, R.layout.message_item_left, mManager.getAllMessage(), DBHelper.FROM, DBHelper.TO, mManager.getAuthorName());
         mListView.setAdapter(mAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(NetworkStateMonitor.getInstance(this).isConnected()){
-            mSendButton.setEnabled(true);
-        }else{
-            mSendButton.setEnabled(false);
-        }
+        setEnableButton(NetworkStateMonitor.getInstance(this).isConnected());
+        scrollToEnd();
     }
 
     @Override
@@ -69,8 +70,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onMessageChange(Message message) {
-        mListMess.add(message);
-        mAdapter.notifyDataSetChanged();
+        mCursor.close();
+        mCursor = mManager.getAllMessage();
+        if(mAdapter != null) {
+            mAdapter.swapCursor(mCursor);
+        }else{
+            createAdapter();
+        }
+        scrollToEnd();
     }
 
     private void postAComment(){
@@ -79,12 +86,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             mEditText.setText("");
             mManager.insertText(text);
         }else{
-            Toast.makeText(MainActivity.this, "Please insert text to send", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, ResourceUtil.getString(this, R.string.alert_input_add_text), Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    protected void networkSateChanged(boolean isConnected) {
+    private void scrollToEnd(){
+        if(mListView != null){
+            mListView.setStackFromBottom(true);
+            mListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        }
+    }
+
+    private void setEnableButton(boolean isConnected){
         if(mSendButton != null) {
             if (isConnected) {
                 mSendButton.setEnabled(true);
@@ -92,5 +105,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 mSendButton.setEnabled(false);
             }
         }
+    }
+
+    @Override
+    protected void networkSateChanged(boolean isConnected) {
+        setEnableButton(isConnected);
     }
 }
